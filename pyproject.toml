@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "whereproc"
+version = "0.1.0"
+description = "Show the executable path for matching processes"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+  { name = "DorkToast", email = "dorktoast@gmail.com" }
+]
+
+dependencies = [
+  "psutil>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/dorktoast/whereproc"
+
+[project.scripts]
+whereproc = "whereproc.cli:main"
+
+[tool.hatch.build]
+include = [
+  "src/**",
+  "pyproject.toml",
+  "README.md",
+  "LICENSE",
+]
