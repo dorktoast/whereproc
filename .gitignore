@@ -1,5 +1,17 @@
-dist/
+# Virtual environments
+.venv/
 .build-venv/
 venv/
-*.pyc
+
+# Python cache
 __pycache__/
+*.pyc
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# IDE/editor junk
+.vscode/
+.idea/
