@@ -13,11 +13,17 @@ It gives you:
 -   JSON output
 -   A quiet mode for scripting (`--quiet` → just print the process path)    
 
-----------
-
 ## Why?
 
-Because sometimes you just want a dead-simple way to answer: **“What executable is actually backing this process?”**
+The reason I made this is because I work on multiple platforms (Linux, macOS, Windows), and the question **“what executable is this process actually running?”** isn’t consistently answered across them. For example:
+
+- Windows’ built-in tools don’t reliably show the resolved binary path.
+- macOS hides app bundle paths behind layers of symlinks.
+- On Linux, depending on the distribution or container environment, /proc/<pid>/exe may be masked or point to a launcher script instead of the binary.
+
+`psutil` gives a single cross-platform API for exactly this one piece of information, which is why the tool uses it.
+
+So the goal isn’t to replace ps, but to have a tiny, uniform CLI that works the same way on every OS and always returns the actual executable path, with optional matching modes and script-friendly output.
 
 Useful for:
 
@@ -26,21 +32,41 @@ Useful for:
 -   scripting around PID or exe discovery    
 -   process verification and automation
 
-----------
-
 ## Installation
 
-### pipx (recommended)
+### Linux and MacOS (Intel or Apple Silicon)
+
+#### [pipx](https://github.com/pypa/pipx) (recommended)
 ```
 pipx install whereproc
 ```
 
-### From source
+#### From source
 
-```
+```bash
 git clone https://github.com/dorktoast/whereproc.git
 cd whereproc
 pipx install .
+```
+### Windows via PowerShell
+**Via pipx:**
+```powershell
+# Install pipx if you don't already have it
+python -m pip install --user pipx
+python -m pipx ensurepath
+
+# Close and reopen PowerShell, then:
+pipx install whereproc
+```
+
+**If you prefer not to use pipx:**
+
+```powershell
+python -m pip install --user whereproc
+```
+Then make sure Python’s Scripts directory is on PATH:
+```powershell
+$env:PATH += ";$($env:USERPROFILE)\AppData\Roaming\Python\Python311\Scripts"
 ```
 
 ## Usage
